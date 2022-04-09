@@ -1,12 +1,12 @@
-import {MainContainer} from './Container.styled';
-import propTypes from 'prop-types';
+import { Outlet } from 'react-router-dom';
+import AppBar from '../AppBar';
+import { MainContainer } from './Container.styled';
 
-const Container = ({ children }) => {
-    return <MainContainer> { children }</MainContainer >;    
+const Container = () => {
+  return <MainContainer>
+    <AppBar />
+    <Outlet />
+  </MainContainer >;    
 }
-
-Container.propTypes = {
-  children: propTypes.element.isRequired,
-};
 
 export default Container;

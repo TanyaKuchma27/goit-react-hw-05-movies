@@ -1,28 +1,30 @@
-// import { useState, useEffect } from 'react';
-// import { Link, useMatch } from 'react-router-dom';
-// import * as movieAPI from '../services/movieAPI';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import * as movieAPI from '../services/movieAPI';
 
 export default function HomePage() {
-//   const { url } = useMatch();
-//   const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState(null);
 
-//   useEffect(() => {
-//     movieAPI.fetchMovies().then(setMovies);
-//   }, []);
+  useEffect(() => {
+    movieAPI.fetchTrendingMovies().then(r => r.results).then(setMovies);
+  
+  }, []);
+  
 
-  return (
+  return (    
       <> 
-    <h1>Список фильмов</h1>      
+      <h1>Trending today</h1>   
+      
 
-      {/* {movies && (
+    {movies && (
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`${url}/${movie.id}`}>{movie.title}</Link>
+              <Link to={`/movies/${movie.id}`}>{movie.title || movie.original_name}</Link>
             </li>
           ))}
         </ul>
-      )} */}
-    </>
+      )} 
+     </>
   );
 }
