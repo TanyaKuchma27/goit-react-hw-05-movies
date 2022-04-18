@@ -12,10 +12,7 @@ export default function Reviews() {
 
     return (
         <>
-            {console.log(reviews)}
-            {console.log(reviews.length)}
             <h2> Reviews </h2>
-            {!reviews && <h2>Loading...</h2>}            
             { (reviews.length > 0) ? (
                 <ul>
                     {reviews.map(review => (

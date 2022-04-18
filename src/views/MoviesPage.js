@@ -20,11 +20,7 @@ export default function MoviesPage() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    // if (photo.trim() === '') {
-    //     toast.error('Please, enter data');        
-    //     return;
-    // }  
-          
+    
     movieAPI.fetchSearchMovies(queryInput).then(r => r.results).then(setMovies);
     setQueryInput('');
   }; 
@@ -38,12 +34,10 @@ export default function MoviesPage() {
 
   return (  
     <>
-      {console.log(searchParams)}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="query"
-          // value={query}
           value={searchParams.get('query') === null ? '' : searchParams.get('query')}
           onChange={handleQueryChange}
           autoComplete="off"

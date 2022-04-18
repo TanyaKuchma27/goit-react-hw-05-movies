@@ -13,9 +13,7 @@ export default function HomePage() {
 
   return (    
     <> 
-      <h1>Trending today</h1> 
-      
-      {!movies && <h2>Loading...</h2>}  
+      <h1>Trending today</h1>         
       {movies && (
         <ul>
           
@@ -26,6 +24,6 @@ export default function HomePage() {
           ))}
         </ul>
       )} 
-     </>
+    </>
   );
 }

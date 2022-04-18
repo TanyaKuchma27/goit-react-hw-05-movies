@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 const Button = ({ location }) => {
-    const navigate = useNavigate();
-    
-    console.log(navigate);
+  const navigate = useNavigate();
   
   return (
     <button
