@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import * as movieAPI from '../services/movieAPI';
 
 export default function MoviesPage() {
-  const [query, setQuery] = useState('');
+  const [queryInput, setQueryInput] = useState('');
   const [movies, setMovies] = useState(null);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const handleQueryChange = event => {
-    setQuery(event.target.value);              
+    setQueryInput(event.target.value);
+
+    if (event.target.value === '') {
+      setSearchParams({});
+      return;
+    }
+    setSearchParams({ query: event.target.value });   
   };
 
   const handleSubmit = event => {
@@ -17,17 +25,26 @@ export default function MoviesPage() {
     //     return;
     // }  
           
-    movieAPI.fetchSearchMovies(query).then(r => r.results).then(setMovies);
-    setQuery('');
-  };  
+    movieAPI.fetchSearchMovies(queryInput).then(r => r.results).then(setMovies);
+    setQueryInput('');
+  }; 
+  
+  useEffect(() => {
+    if (searchParams.get('query') !== null) {
+      const searchQuery = searchParams.get('query');
+      movieAPI.fetchSearchMovies(searchQuery).then(r => r.results).then(setMovies);      
+    }
+  }, []);
 
   return (  
     <>
+      {console.log(searchParams)}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="query"
-          value={query}
+          // value={query}
+          value={searchParams.get('query') === null ? '' : searchParams.get('query')}
           onChange={handleQueryChange}
           autoComplete="off"
           autoFocus
@@ -35,7 +52,7 @@ export default function MoviesPage() {
         />
         <button type="submit">Search</button>
       </form> 
-
+      
       {movies && (
         <ul>
           {movies.map(movie => (
@@ -45,8 +62,6 @@ export default function MoviesPage() {
           ))}
         </ul>
       )} 
-
-
     </>
   );
 }

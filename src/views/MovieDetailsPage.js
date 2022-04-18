@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
-import { Section, Info, Additional } from './MovieDetailsPage.styled'; 
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { Section, Info, Additional } from './MovieDetailsPage.styled';
 import * as movieAPI from '../services/movieAPI';
+import Button from '../components/Button/Button';
 
 export default function MovieDetailsPage() {
     const { movieId } = useParams();    
-    const [movie, setMovie] = useState(null);
+    const [movie, setMovie] = useState(null);    
+    const location = useLocation();   
 
     useEffect(() => {
         movieAPI.fetchMovieById(movieId).then(setMovie);        
-    }, [movieId]);   
+    }, [movieId]);  
 
     return (
         <>
-            {console.log(movie)}
-
+            <Button location={location}></Button>
+            {!movie && <h2>Loading...</h2>}
             {movie && (
                 <>
                     <Section>
@@ -38,16 +40,14 @@ export default function MovieDetailsPage() {
                     <Additional>
                         <p>Additional information</p>
                         <ul>
-                            <li>
-                                {/* <Link to={`/movies/${movie.id}/cast`}>Cast</Link> */}
+                            <li>                                
                                 <Link to="cast">Cast</Link>
                             </li> 
-                            <li>
-                                {/* <Link to={`/movies/${movie.id}/reviews`}>Reviews</Link> */}
+                            <li>                                
                                 <Link to="reviews">Reviews</Link>
                             </li> 
                         </ul>
-                    </Additional>
+                    </Additional>          
                     <Outlet />
                 </>
             )}

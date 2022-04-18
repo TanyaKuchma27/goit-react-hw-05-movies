@@ -12,12 +12,13 @@ export default function HomePage() {
   
 
   return (    
-      <> 
-      <h1>Trending today</h1>   
+    <> 
+      <h1>Trending today</h1> 
       
-
-    {movies && (
+      {!movies && <h2>Loading...</h2>}  
+      {movies && (
         <ul>
+          
           {movies.map(movie => (
             <li key={movie.id}>
               <Link to={`/movies/${movie.id}`}>{movie.title || movie.original_name}</Link>

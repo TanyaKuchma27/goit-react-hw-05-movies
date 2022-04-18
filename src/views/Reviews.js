@@ -1,3 +1,31 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; 
+import * as movieAPI from '../services/movieAPI';
+
 export default function Reviews() { 
-    return (<h1>Reviews</h1>)
+    const { movieId } = useParams();    
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        movieAPI.fetchMovieReviewById(movieId).then(r => r.results).then(setReviews);        
+    }, [movieId]);
+
+    return (
+        <>
+            {console.log(reviews)}
+            {console.log(reviews.length)}
+            <h2> Reviews </h2>
+            {!reviews && <h2>Loading...</h2>}            
+            { (reviews.length > 0) ? (
+                <ul>
+                    {reviews.map(review => (
+                        <li key={review.id}>
+                            <p><b>Author: {review.author}</b></p>
+                            <p>{review.content}</p>
+                        </li>
+                    ))}
+                </ul>
+            ) : <p>We don't have any reviews for this movie.</p>}
+        </>
+    )
 }

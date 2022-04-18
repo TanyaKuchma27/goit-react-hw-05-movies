@@ -27,3 +27,8 @@ export function fetchMovieCastById(movieId) {
     const searchCastByIdURL = `${BASE_URL}/movie/${movieId}/credits?api_key=${key}`;
     return fetchWithErrorHandling(searchCastByIdURL);    
 }
+
+export function fetchMovieReviewById(movieId) {
+    const searchReviewByIdURL = `${BASE_URL}/movie/${movieId}/reviews?api_key=${key}`;    
+    return fetchWithErrorHandling(searchReviewByIdURL);    
+}

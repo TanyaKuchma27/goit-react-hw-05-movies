@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import { Section, Info, Additional } from './MovieDetailsPage.styled'; 
+import { Title, List, Item, Text  } from './Cast.styled'; 
 import * as movieAPI from '../services/movieAPI';
+import DefaultPhoto from 'img/def-cast.png';
 
 export default function Cast() { 
     const { movieId } = useParams();
@@ -13,28 +14,26 @@ export default function Cast() {
 
     return (
         <>
-            {console.log(cast)}
-            <h1> Cast </h1>
+            <Title> Cast </Title>
+            {!cast && <h2>Loading...</h2>}
             {cast && (
-                <ul>
+                <List>
                     {cast.map(actor => (
-                        <li key={actor.id}>
+                        <Item key={actor.id}>
+                            {actor.profile_path ? (
                             <img src={`https://image.tmdb.org/t/p/w300/${actor.profile_path}`}
-                        alt={cast.name}
-                        width={100}
-                    />
-                        
-                        
-                    
-                    <p>{actor.name}</p>
-              
-            </li>
-          ))}
-                        
-                    
-                    
-                        
-                </ul>
+                            alt={actor.name}
+                            width={100}
+                            />
+                            ) : (
+                                    <img src={DefaultPhoto} alt="actor.name" width={100} height={150}/>
+                            )}
+                            <Text>{actor.name}</Text>
+                            <Text><b>Character:</b></Text>
+                            <Text>{actor.character}</Text>
+                        </Item>
+                    ))}
+                </List>
             )}
         </>
     )
