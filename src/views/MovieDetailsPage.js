@@ -1,8 +1,7 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams, Link, Outlet, useLocation, Routes, Route } from 'react-router-dom';
+import { useParams, Link, Outlet, Routes, Route, useNavigate} from 'react-router-dom';
 import { Section, Info, Additional } from './MovieDetailsPage.styled';
 import * as movieAPI from '../services/movieAPI';
-import Button from '../components/Button/Button';
 
 const Cast = lazy(() => import('../views/Cast'));
 const Reviews = lazy(() => import('../views/Reviews'));
@@ -10,15 +9,20 @@ const Reviews = lazy(() => import('../views/Reviews'));
 export default function MovieDetailsPage() {
     const { movieId } = useParams();    
     const [movie, setMovie] = useState(null);    
-    const location = useLocation();   
-
+    const navigate = useNavigate();
+        
     useEffect(() => {
         movieAPI.fetchMovieById(movieId).then(setMovie);        
     }, [movieId]);  
 
     return (
         <>
-            <Button location={location}></Button>
+            <button
+              type="button"
+              onClick={() => {navigate(-1)}}
+            >
+              Go back
+            </button> 
             {!movie && <h2>Loading...</h2>}
             {movie && (
                 <>
@@ -54,7 +58,7 @@ export default function MovieDetailsPage() {
                     <Outlet />
                 </>
             )} 
-             <Suspense fallback={<h2>Loading...</h2>}>
+            <Suspense fallback={<h2>Loading...</h2>}>
                 <Routes> 
                     <Route  path="cast" element={<Cast />} /> 
                     <Route  path="reviews" element={<Reviews />} />            

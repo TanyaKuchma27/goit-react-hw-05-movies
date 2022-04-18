@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Section = styled.div`
+  margin-top: 10px;
   display: flex;
 `;
 
