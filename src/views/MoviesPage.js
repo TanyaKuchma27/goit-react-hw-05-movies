@@ -34,7 +34,7 @@ export default function MoviesPage() {
       const searchQuery = searchParams.get('query');
       movieAPI.fetchSearchMovies(searchQuery).then(r => r.results).then(setMovies);      
     }
-  }, []);
+  }, [searchParams]);
 
   return (  
     <>
