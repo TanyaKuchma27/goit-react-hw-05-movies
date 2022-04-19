@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import * as movieAPI from '../services/movieAPI';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function MoviesPage() {
   const [queryInput, setQueryInput] = useState('');
@@ -9,17 +11,18 @@ export default function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleQueryChange = event => {
-    setQueryInput(event.target.value);
-
-    if (event.target.value === '') {
-      setSearchParams({});
-      return;
-    }
-    setSearchParams({ query: event.target.value });   
+    setQueryInput(event.target.value);  
   };
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    setSearchParams({ query: queryInput.trim() }); 
+
+    if (queryInput.trim() === '') {
+      toast.error('Please, enter data');        
+      return;
+    }  
     
     movieAPI.fetchSearchMovies(queryInput).then(r => r.results).then(setMovies);
     setQueryInput('');
@@ -38,15 +41,14 @@ export default function MoviesPage() {
         <input
           type="text"
           name="query"
-          value={searchParams.get('query') === null ? '' : searchParams.get('query')}
+          value={queryInput}
           onChange={handleQueryChange}
           autoComplete="off"
           autoFocus
           placeholder="Search movie"
         />
         <button type="submit">Search</button>
-      </form> 
-      
+      </form>       
       {movies && (
         <ul>
           {movies.map(movie => (
@@ -56,6 +58,7 @@ export default function MoviesPage() {
           ))}
         </ul>
       )} 
+      <ToastContainer autoClose={3000} />
     </>
   );
 }

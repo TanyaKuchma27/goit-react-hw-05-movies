@@ -9,17 +9,15 @@ const NotFoundView = lazy(() => import('../views/NotFoundView'));
 
 export const App = () => {
   return ( 
-    
       <Suspense fallback={<h2>Loading...</h2>}>
         <Routes> 
           <Route path="/" element={<Container />}>
             <Route index element={<HomePage />} />
-            <Route  path="movies" element={<MoviesPage />}/>
-            <Route  path="movies/:movieId/*" element={<MovieDetailsPage />}/>       
-            <Route path="*" element={<NotFoundView />} />
+            <Route path="movies" element={<MoviesPage />}/>
+            <Route path="movies/:movieId/*" element={<MovieDetailsPage />}/>       
+            <Route path="*" element={<NotFoundView />} />            
           </Route>
         </Routes>
-      </Suspense>
-    
+      </Suspense>    
   );
 }
