@@ -1,5 +1,5 @@
 {
-  "name": "react-homework-template",
+  "name": "goit-react-hw-05-movies",
   "version": "0.1.0",
   "private": true,
   "homepage": "https://TanyaKuchma27.github.io/goit-react-hw-05-movies/",
@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "lint:js": "eslint src/**/*.{js,jsx}",
     "predeploy": "npm run build",
-    "deploy": "netlify deploy -p"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
