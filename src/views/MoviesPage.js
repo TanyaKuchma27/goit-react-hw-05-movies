@@ -17,15 +17,17 @@ export default function MoviesPage() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    setSearchParams({ query: queryInput.trim() }); 
+    const searchQuery = event.target.elements.query.value.trim();
 
-    if (queryInput.trim() === '') {
-      toast.error('Please, enter data');        
+    if (!searchQuery) {
+      toast.error('Please, enter data');
+      setSearchParams('');
       return;
-    }  
-    
-    movieAPI.fetchSearchMovies(queryInput).then(r => r.results).then(setMovies);
-    setQueryInput('');
+    }
+
+    setSearchParams({ query: searchQuery }); 
+
+    event.currentTarget.reset();
   }; 
   
   useEffect(() => {
