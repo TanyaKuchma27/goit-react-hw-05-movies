@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import * as movieAPI from '../services/movieAPI';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,8 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function MoviesPage() {
   const [queryInput, setQueryInput] = useState('');
   const [movies, setMovies] = useState(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
 
   const handleQueryChange = event => {
     setQueryInput(event.target.value);  
@@ -55,7 +55,7 @@ export default function MoviesPage() {
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>{movie.title || movie.original_name}</Link>
+              <Link to={`/movies/${movie.id}`} state={{ from: location}}>{movie.title || movie.original_name}</Link>
             </li>
           ))}
         </ul>

@@ -1,28 +1,24 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { useParams, Link, Outlet, Routes, Route, useNavigate} from 'react-router-dom';
+import { useParams, Link, Outlet, Routes, Route, useLocation} from 'react-router-dom';
 import { Section, Info, Additional } from './MovieDetailsPage.styled';
 import * as movieAPI from '../services/movieAPI';
+import GoBackButton from '../components/GoBackButton';
 
 const Cast = lazy(() => import('../views/Cast'));
 const Reviews = lazy(() => import('../views/Reviews'));
 
 export default function MovieDetailsPage() {
     const { movieId } = useParams();    
-    const [movie, setMovie] = useState(null);    
-    const navigate = useNavigate();
-        
+    const [movie, setMovie] = useState(null); 
+    const location = useLocation();
+    
     useEffect(() => {
         movieAPI.fetchMovieById(movieId).then(setMovie);        
     }, [movieId]);  
 
     return (
-        <>
-            <button
-              type="button"
-              onClick={() => {navigate(-1)}}
-            >
-              Go back
-            </button> 
+        <>           
+            <GoBackButton location={location}/>
             {!movie && <h2>Loading...</h2>}
             {movie && (
                 <>
@@ -48,10 +44,10 @@ export default function MovieDetailsPage() {
                         <p>Additional information</p>
                         <ul>
                             <li>                                
-                                <Link to="cast">Cast</Link>
+                                <Link to="cast" state={location.state}>Cast</Link>
                             </li> 
                             <li>                                
-                                <Link to="reviews">Reviews</Link>
+                                <Link to="reviews" state={location.state}>Reviews</Link>
                             </li> 
                         </ul>
                     </Additional>          
@@ -60,8 +56,8 @@ export default function MovieDetailsPage() {
             )} 
             <Suspense fallback={<h2>Loading...</h2>}>
                 <Routes> 
-                    <Route  path="cast" element={<Cast />} /> 
-                    <Route  path="reviews" element={<Reviews />} />            
+                    <Route path="cast" element={<Cast />} /> 
+                    <Route path="reviews" element={<Reviews />} />            
                 </Routes>
             </Suspense>
         </>
